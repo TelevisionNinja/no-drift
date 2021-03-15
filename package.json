@@ -2,7 +2,7 @@
   "name": "no-drift-js",
   "version": "1.0.0",
   "description": "Reduced drift timeouts and intervals",
-  "main": "nodrift.js",
+  "main": "./src/nodrift.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
