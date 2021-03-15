@@ -17,14 +17,14 @@ formula for timeout times:
 
 recursive formula (geometric)
 t(0) = givenTime
-t(n) = (1 / denominator) * t(n - 1)
+t(n) = (common ratio) * t(n - 1)
 
 closed formula
-t = givenTime * (1 / denominator)^n
+t = givenTime * (common ratio)^n
 
-default denominator is 2 
+default common ratio is 0.9
 */
-const denominator = 2;
+const commonRatio = 0.9;
 
 /**
  * this calls a function to get a timestamp
@@ -69,7 +69,7 @@ function customTimeout(callback, end, ID) {
             ID,
             setTimeout(() => {
                 customTimeout(callback, end, ID);
-            }, (end - getTimestamp()) / denominator)
+            }, commonRatio * (end - getTimestamp()))
         );
     }
     else {
@@ -114,7 +114,7 @@ function customInterval(callback, time, end, ID) {
         ID,
         setTimeout(() => {
             customInterval(callback, time, end, ID);
-        }, (end - getTimestamp()) / denominator)
+        }, commonRatio * (end - getTimestamp()))
     );
 }
 
