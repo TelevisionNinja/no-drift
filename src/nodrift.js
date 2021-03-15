@@ -8,7 +8,7 @@ module.exports = {
 }
 
 // array of IDs so that the timers can be cleared
-const IDs = [];
+const IDs = new Map();
 // variable to keep track of and return a new ID
 let newID = 0;
 
@@ -64,14 +64,17 @@ function getTimestamp() {
  * @param {Number} ID 
  */
 function customTimeout(callback, end, ID) {
-    IDs[ID] = setTimeout(() => {
-        if (end > getTimestamp()) {
-            customTimeout(callback, end, ID);
-        }
-        else {
-            callback();
-        }
-    }, (end - getTimestamp()) / denominator);
+    if (end > getTimestamp()) {
+        IDs.set(
+            ID,
+            setTimeout(() => {
+                customTimeout(callback, end, ID);
+            }, (end - getTimestamp()) / denominator)
+        );
+    }
+    else {
+        callback();
+    }
 }
 
 /**
@@ -102,14 +105,17 @@ function startTimeout(callback, ms = 0, ...args) {
  * @param {Number} ID 
  */
 function customInterval(callback, time, end, ID) {
-    IDs[ID] = setTimeout(() => {
-        if (end <= getTimestamp()) {
-            callback();
-            end += time;
-        }
+    if (end <= getTimestamp()) {
+        callback();
+        end += time;
+    }
 
-        customInterval(callback, time, end, ID);
-    }, (end - getTimestamp()) / denominator);
+    IDs.set(
+        ID,
+        setTimeout(() => {
+            customInterval(callback, time, end, ID);
+        }, (end - getTimestamp()) / denominator)
+    );
 }
 
 /**
@@ -137,7 +143,8 @@ function startInterval(callback, ms = 0, ...args) {
  * @param {Number} ID 
  */
 function cancelTimeout(ID) {
-    clearTimeout(IDs[ID]);
+    clearTimeout(IDs.get(ID));
+    IDs.delete(ID);
 }
 
 /**
@@ -146,5 +153,6 @@ function cancelTimeout(ID) {
  * @param {Number} ID 
  */
 function cancelInterval(ID) {
-    clearInterval(IDs[ID]);
+    clearInterval(IDs.get(ID));
+    IDs.delete(ID);
 }
