@@ -1,10 +1,9 @@
 const { performance } = require('perf_hooks'); // for node js
 
 module.exports = {
-    startTimeout,
-    startInterval,
-    cancelTimeout,
-    cancelInterval
+    setNoDriftTimeout,
+    setNoDriftInterval,
+    clearNoDrift
 }
 
 // array of IDs so that the timers can be cleared
@@ -64,17 +63,17 @@ function getTimestamp() {
  * @param {Number} ID 
  */
 function customTimeout(callback, end, ID) {
-    if (end > getTimestamp()) {
-        IDs.set(
-            ID,
-            setTimeout(() => {
+    IDs.set(
+        ID,
+        setTimeout(() => {
+            if (end > getTimestamp()) {
                 customTimeout(callback, end, ID);
-            }, commonRatio * (end - getTimestamp()))
-        );
-    }
-    else {
-        callback();
-    }
+            }
+            else {
+                callback();
+            }
+        }, commonRatio * (end - getTimestamp()))
+    );
 }
 
 /**
@@ -85,7 +84,7 @@ function customTimeout(callback, end, ID) {
  * @param  {...any} args 
  * @returns an ID
  */
-function startTimeout(callback, ms = 0, ...args) {
+function setNoDriftTimeout(callback, ms = 0, ...args) {
     customTimeout(() => {
         callback(...args);
     }, ms + getTimestamp(), newID);
@@ -105,14 +104,14 @@ function startTimeout(callback, ms = 0, ...args) {
  * @param {Number} ID 
  */
 function customInterval(callback, time, end, ID) {
-    if (end <= getTimestamp()) {
-        callback();
-        end += time;
-    }
-
     IDs.set(
         ID,
         setTimeout(() => {
+            if (end <= getTimestamp()) {
+                callback();
+                end += time;
+            }
+
             customInterval(callback, time, end, ID);
         }, commonRatio * (end - getTimestamp()))
     );
@@ -126,7 +125,7 @@ function customInterval(callback, time, end, ID) {
  * @param  {...any} args 
  * @returns an ID
  */
-function startInterval(callback, ms = 0, ...args) {
+function setNoDriftInterval(callback, ms = 0, ...args) {
     customInterval(() => {
         callback(...args);
     }, ms, ms + getTimestamp(), newID);
@@ -138,21 +137,11 @@ function startInterval(callback, ms = 0, ...args) {
 // clear functions
 
 /**
- * cancels the timeout of a given ID
+ * cancels a no drift timeout or interval
  * 
  * @param {Number} ID 
  */
-function cancelTimeout(ID) {
+function clearNoDrift(ID) {
     clearTimeout(IDs.get(ID));
-    IDs.delete(ID);
-}
-
-/**
- * cancels the interval of a given ID
- * 
- * @param {Number} ID 
- */
-function cancelInterval(ID) {
-    clearInterval(IDs.get(ID));
     IDs.delete(ID);
 }
