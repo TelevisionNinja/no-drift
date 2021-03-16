@@ -94,7 +94,7 @@ function zeroTimeout(callback, end) {
     }
     */
     
-    // spin lock
+    // spinning
     while (0 < end - getTimestamp()) {}
 
     callback();
