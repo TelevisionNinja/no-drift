@@ -64,7 +64,7 @@ function getTimestamp() {
  * @param {Number} end 
  */
 function zeroTimeout(callback, end) {
-    // recursive
+    // recursion
     /*
     if (0 < end - getTimestamp()) {
         process.nextTick(() => {
