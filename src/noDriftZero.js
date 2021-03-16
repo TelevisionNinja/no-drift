@@ -115,7 +115,7 @@ function customTimeout(callback, end, ID) {
             ID,
             setTimeout(() => {
                 customTimeout(callback, end, ID);
-            }, delta * commonRatio)
+            }, commonRatio * delta)
         );
     }
     else {
@@ -163,7 +163,7 @@ function customInterval(callback, time, end, ID) {
         ID,
         setTimeout(() => {
             customInterval(callback, time, end, ID);
-        }, delta * commonRatio)
+        }, commonRatio * delta)
     );
 }
 
