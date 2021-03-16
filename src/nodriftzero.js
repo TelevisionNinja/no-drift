@@ -66,7 +66,7 @@ function getTimestamp() {
 function zeroTimeout(callback, end) {
     // recursive
     /*
-    if (end - getTimestamp() > 0) {
+    if (0 < end - getTimestamp()) {
         process.nextTick(() => {
             zeroTimeout(callback, end);
         });
@@ -95,7 +95,7 @@ function zeroTimeout(callback, end) {
     */
     
     // spin lock
-    while (end - getTimestamp() > 0) {}
+    while (0 < end - getTimestamp()) {}
 
     callback();
 }
