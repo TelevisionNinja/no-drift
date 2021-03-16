@@ -9,7 +9,7 @@ module.exports = {
 // array of IDs so that the timers can be cleared
 const IDs = new Map();
 // variable to keep track of and return a new ID
-let newID = 0;
+let newID = 1;
 
 /*
 formula for timeout times:
@@ -134,7 +134,7 @@ function setNoDriftInterval(callback, ms = 0, ...args) {
 }
 
 //-------------------------------------------------------------------------
-// clear functions
+// clear function
 
 /**
  * cancels a no drift timeout or interval
