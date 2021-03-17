@@ -14,16 +14,32 @@ let newID = 1;
 /*
 formula for timeout times:
 
-recursive formula (geometric)
-t(0) = givenTime
-t(n) = (common ratio) * t(n - 1)
+d <- time left
+
+recursive formula
+d(0) = finalTime
+d(n) = d(n-1) * (1 - rate)
 
 closed formula
-t = givenTime * (common ratio)^n
+d(n) = finalTime * (1 - rate)^n
 
-default common ratio is 0.9
+------------------------------------
+
+c <- current time
+
+closed formula
+c(n) = finalTime * (1 - (1 - rate)^n)
+
+------------------------------------
+
+t <- current wait time
+
+closed formula
+t(n) = finalTime * rate * (1 - rate)^n
+
+default rate is 0.9
 */
-const commonRatio = 0.9;
+const rate = 0.9;
 
 /**
  * this calls a function to get a timestamp
@@ -72,7 +88,7 @@ function customTimeout(callback, end, ID) {
             else {
                 callback();
             }
-        }, commonRatio * (end - getTimestamp()))
+        }, rate * (end - getTimestamp()))
     );
 }
 
@@ -113,7 +129,7 @@ function customInterval(callback, time, end, ID) {
             }
 
             customInterval(callback, time, end, ID);
-        }, commonRatio * (end - getTimestamp()))
+        }, rate * (end - getTimestamp()))
     );
 }
 
