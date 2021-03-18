@@ -11,34 +11,6 @@ const IDs = new Map();
 // variable to keep track of and return a new ID
 let newID = 1;
 
-/*
-formula for timeout times:
-
-d <- time left
-
-recursive formula
-d(0) = finalTime
-d(n) = d(n-1) * (1 - rate)
-
-closed formula
-d(n) = finalTime * (1 - rate)^n
-
-------------------------------------
-
-c <- current time
-
-closed formula
-c(n) = finalTime * (1 - (1 - rate)^n)
-
-------------------------------------
-
-t <- current wait time
-
-closed formula
-t(n) = finalTime * rate * (1 - rate)^n
-
-default rate is 0.9
-*/
 const rate = 0.9;
 
 /**
