@@ -3,8 +3,6 @@ Reduced drift timeouts and intervals
 
 Inspired by [driftless](https://github.com/dbkaplun/driftless)
 
----
-
 ## Formulas for timeout times:
 
 _r_ = rate
@@ -12,7 +10,7 @@ _r_ = rate
 _t_ = final time
 
 
-## Time left
+### Time left
 
 __recursive formula__
 
@@ -25,14 +23,14 @@ __closed formula__
 _d_<sub>n</sub> = _t_(1 - _r_)<sup>n</sup>
 
 
-## Current time
+### Current time
 
 __closed formula__
 
 _c_<sub>n</sub> = _t_(1 - (1 - _r_)<sup>n</sup>)
 
 
-## Current wait time
+### Current wait time
 
 __closed formula__
 
