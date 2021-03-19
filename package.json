@@ -1,5 +1,5 @@
 {
-  "name": "no-drift-js",
+  "name": "no-drift",
   "version": "1.0.0",
   "description": "Reduced drift timeouts and intervals",
   "main": "./src/nodrift.js",
