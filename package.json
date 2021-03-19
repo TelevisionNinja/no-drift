@@ -1,6 +1,6 @@
 {
   "name": "no-drift",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Reduced drift timeouts and intervals",
   "main": "./src/nodrift.js",
   "scripts": {
@@ -20,6 +20,7 @@
     "setInterval",
     "setTimeout",
     "drift",
-    "no drift"
+    "no-drift",
+    "driftless"
   ]
 }
