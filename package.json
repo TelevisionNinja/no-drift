@@ -1,6 +1,6 @@
 {
   "name": "no-drift",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Reduced drift timeouts and intervals",
   "main": "./src/nodrift.js",
   "scripts": {
@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/TelevisionNinja/no-drift-js/issues"
   },
-  "homepage": "https://github.com/TelevisionNinja/no-drift-js#readme"
+  "homepage": "https://github.com/TelevisionNinja/no-drift-js#readme",
+  "keywords": [
+    "setInterval",
+    "setTimeout",
+    "drift",
+    "no drift"
+  ]
 }
