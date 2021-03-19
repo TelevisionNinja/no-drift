@@ -16,30 +16,30 @@ const threshold = 16;
 
 /**
  * this calls a function to get a timestamp
- * performance.now() is the default
  * 
  * @returns a timestamp
  */
-function getTimestamp() {
-    /*
+const getTimestamp = () => performance.now();
+/*
+    performance.now() is the default
+
     other timestamp functions
 
     -------------------------
 
-    const time = process.hrtime();
-    return time[0] * 1000 + time[1] / 1000000; // ms
+    {
+        const time = process.hrtime();
+        return time[0] * 1000 + time[1] / 1000000; // ms
+    }
 
     -------------------------
 
-    return Number(process.hrtime.bigint() / 1000000n); // ms
+    Number(process.hrtime.bigint() / 1000000n); // ms
 
     -------------------------
 
-    return Date.now();
-    */
-
-    return performance.now();
-};
+    Date.now();
+*/
 
 //-------------------------------------------------------------------------
 // timeout
@@ -119,9 +119,7 @@ function customTimeout(callback, end, ID) {
  * @returns an ID
  */
 function setNoDriftTimeout(callback, ms = 0, ...args) {
-    customTimeout(() => {
-        callback(...args);
-    }, ms + getTimestamp(), newID);
+    customTimeout(() => callback(...args), ms + getTimestamp(), newID);
 
     return newID++;
 }
@@ -163,9 +161,7 @@ function customInterval(callback, time, end, ID) {
  * @returns an ID
  */
 function setNoDriftInterval(callback, ms = 0, ...args) {
-    customInterval(() => {
-        callback(...args);
-    }, ms, ms + getTimestamp(), newID);
+    customInterval(() => callback(...args), ms, ms + getTimestamp(), newID);
 
     return newID++;
 }
