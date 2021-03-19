@@ -1,4 +1,4 @@
-# no-drift-js
+# no-drift
 Reduced drift timeouts and intervals
 
 Inspired by [driftless](https://github.com/dbkaplun/driftless)
