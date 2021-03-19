@@ -1,9 +1,9 @@
 const { performance } = require('perf_hooks'); // for node js
 
 module.exports = {
-    setNoDriftTimeout,
-    setNoDriftInterval,
-    clearNoDrift
+    setNoDriftZeroTimeout,
+    setNoDriftZeroInterval,
+    clearNoDriftZero
 }
 
 // array of IDs so that the timers can be cleared
@@ -118,7 +118,7 @@ function customTimeout(callback, end, ID) {
  * @param  {...any} args 
  * @returns an ID
  */
-function setNoDriftTimeout(callback, ms = 0, ...args) {
+function setNoDriftZeroTimeout(callback, ms = 0, ...args) {
     customTimeout(() => callback(...args), ms + getTimestamp(), newID);
 
     return newID++;
@@ -160,7 +160,7 @@ function customInterval(callback, time, end, ID) {
  * @param  {...any} args 
  * @returns an ID
  */
-function setNoDriftInterval(callback, ms = 0, ...args) {
+function setNoDriftZeroInterval(callback, ms = 0, ...args) {
     customInterval(() => callback(...args), ms, ms + getTimestamp(), newID);
 
     return newID++;
@@ -174,7 +174,7 @@ function setNoDriftInterval(callback, ms = 0, ...args) {
  * 
  * @param {Number} ID 
  */
-function clearNoDrift(ID) {
+function clearNoDriftZero(ID) {
     clearTimeout(IDs.get(ID));
     IDs.delete(ID);
 }
