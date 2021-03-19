@@ -3,6 +3,44 @@ Reduced drift timeouts and intervals
 
 Inspired by [driftless](https://github.com/dbkaplun/driftless)
 
+## Usage
+
+```javascript
+const {
+    setNoDriftTimeout,
+    setNoDriftInterval,
+    clearNoDrift
+} = require('no-drift');
+
+//------------------
+// similar usage to setTimeout and setInterval
+
+setNoDriftTimeout(() => {
+    console.log('Hello world 1');
+});
+
+setNoDriftTimeout(() => {
+    console.log('Hello world 2');
+}, 1000);
+
+setNoDriftTimeout((a, b, c) => {
+    console.log(a, b, c);
+}, 1000, '1', '2', '3');
+
+setNoDriftInterval(() => {
+    console.log('Hello world 3');
+}, 1000);
+
+//------------------
+// clearing nodrift
+
+const id = setNoDriftTimeout(() => {
+    console.log('clear');
+}, 1000);
+
+clearNoDrift(id);
+```
+
 ## Formulas for timeout times:
 
 _r_ = rate
