@@ -6,7 +6,7 @@ module.exports = {
     clearNoDriftZero
 }
 
-// array of IDs so that the timers can be cleared
+// collection of IDs so that the timers can be cleared
 const IDs = new Map();
 // variable to keep track of and return a new ID
 let newID = 1;
@@ -21,8 +21,6 @@ const threshold = 16;
  */
 const getTimestamp = () => performance.now();
 /*
-    performance.now() is the default
-
     other timestamp functions
 
     -------------------------

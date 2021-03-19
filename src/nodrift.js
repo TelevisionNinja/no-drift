@@ -6,7 +6,7 @@ module.exports = {
     clearNoDrift
 }
 
-// array of IDs so that the timers can be cleared
+// collection of IDs so that the timers can be cleared
 const IDs = new Map();
 // variable to keep track of and return a new ID
 let newID = 1;
@@ -20,8 +20,6 @@ const rate = 0.9;
  */
 const getTimestamp = () => performance.now();
 /*
-    performance.now() is the default
-
     other timestamp functions
 
     -------------------------
