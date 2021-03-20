@@ -105,6 +105,7 @@ function customTimeout(callback, end, ID) {
     }
     else {
         zeroTimeout(callback, end);
+        IDs.delete(ID);
     }
 }
 

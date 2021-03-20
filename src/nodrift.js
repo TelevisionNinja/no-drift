@@ -57,6 +57,7 @@ function customTimeout(callback, end, ID) {
             }
             else {
                 callback();
+                IDs.delete(ID);
             }
         }, rate * (end - getTimestamp()))
     );
