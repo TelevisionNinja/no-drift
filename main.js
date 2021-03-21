@@ -10,11 +10,13 @@ const {
     clearNoDriftZero
 } = require('./src/nodriftzero.js');
 
+/*
 const {
     setNoDriftWorkerInterval,
     setNoDriftWorkerTimeout,
     clearNoDriftWorker
 } = require('./src/worker/nodriftworker.js');
+*/
 
 module.exports = {
     setNoDriftInterval,
@@ -23,9 +25,11 @@ module.exports = {
 
     setNoDriftZeroInterval,
     setNoDriftZeroTimeout,
-    clearNoDriftZero,
+    clearNoDriftZero
 
+    /*
     setNoDriftWorkerInterval,
     setNoDriftWorkerTimeout,
     clearNoDriftWorker
+    */
 }
