@@ -12,7 +12,7 @@ const callbacks = new Map();
 // variable to keep track of and return a new ID
 let newID = 1;
 
-const worker = new Worker(path.resolve(__dirname,'./worker.js'));
+const worker = new Worker(path.resolve(__dirname, './worker.js'));
 
 // execute function
 worker.on('message', vars => {
