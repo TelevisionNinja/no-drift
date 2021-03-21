@@ -6,14 +6,27 @@ Inspired by [driftless](https://github.com/dbkaplun/driftless)
 ## Usage
 
 ```javascript
+// import any implementation you want
 const {
-    setNoDriftTimeout,
+    // default implementation
     setNoDriftInterval,
-    clearNoDrift
+    setNoDriftTimeout,
+    clearNoDrift,
+
+    // spinning implementation
+    setNoDriftZeroInterval,
+    setNoDriftZeroTimeout,
+    clearNoDriftZero,
+
+    // worker thread implementation
+    setNoDriftWorkerInterval,
+    setNoDriftWorkerTimeout,
+    clearNoDriftWorker
 } = require('no-drift');
 
 //------------------
 // similar usage to setTimeout and setInterval
+// all implementations have the same usage
 
 setNoDriftTimeout(() => {
     console.log('Hello world 1');

@@ -1,6 +1,6 @@
 {
   "name": "no-drift",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Reduced drift timeouts and intervals",
   "main": "./main.js",
   "scripts": {
