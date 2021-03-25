@@ -1,5 +1,5 @@
 const { Worker } = require('worker_threads');
-const path = require('path');
+const { resolve } = require('path');
 
 module.exports = {
     setNoDriftWorkerTimeout,
@@ -12,7 +12,7 @@ const callbacks = new Map();
 // variable to keep track of and return a new ID
 let newID = 1;
 
-const worker = new Worker(path.resolve(__dirname, './worker.js'));
+const worker = new Worker(resolve(__dirname, './worker.js'));
 
 // execute function
 worker.on('message', vars => {
@@ -27,7 +27,7 @@ worker.on('message', vars => {
         func();
 
         if (type === 'timeout') {
-            callbacks.delete(ID);
+            clearNoDriftWorker(ID);
         }
     }
 });
@@ -79,6 +79,7 @@ worker.on('message', vars => {
  */
 function clearNoDriftWorker(ID) {
     callbacks.delete(ID);
+
     worker.postMessage({
         type: '',
         time: 0,

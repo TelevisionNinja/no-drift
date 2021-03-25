@@ -13,7 +13,7 @@ const {
     setNoDriftTimeout,
     clearNoDrift,
 
-    // spinning implementation
+    // setImmediate implementation
     setNoDriftZeroInterval,
     setNoDriftZeroTimeout,
     clearNoDriftZero,
@@ -58,7 +58,7 @@ clearNoDrift(id);
 
 _r_ = rate
 
-_t_ = final time
+_t_ = final time<br /><br />
 
 
 ### Time left
@@ -71,14 +71,14 @@ _d_<sub>n</sub> = (1 - _r_)_d_<sub>n-1</sub>
 
 __closed formula__
 
-_d_<sub>n</sub> = _t_(1 - _r_)<sup>n</sup>
+_d_<sub>n</sub> = _t_(1 - _r_)<sup>n</sup><br /><br />
 
 
 ### Current time
 
 __closed formula__
 
-_c_<sub>n</sub> = _t_(1 - (1 - _r_)<sup>n</sup>)
+_c_<sub>n</sub> = _t_(1 - (1 - _r_)<sup>n</sup>)<br /><br />
 
 
 ### Current wait time

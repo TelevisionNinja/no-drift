@@ -1,4 +1,4 @@
-const { performance } = require('perf_hooks'); // for node js
+const { performance } = require('perf_hooks');
 
 module.exports = {
     setNoDriftZeroTimeout,
@@ -50,11 +50,10 @@ const getTimestamp = () => performance.now();
  */
 function zeroTimeout(callback, end) {
     // recursion
-    /*
     if (0 < end - getTimestamp()) {
-        process.nextTick(() => {
-            zeroTimeout(callback, end);
-        });
+        // process.nextTick(() => {
+        //     zeroTimeout(callback, end);
+        // });
 
         //--------------------
 
@@ -63,26 +62,27 @@ function zeroTimeout(callback, end) {
         });
     }
     else {
-        process.nextTick(() => {
-            callback();
-        });
+        // process.nextTick(() => {
+        //     callback();
+        // });
 
         //--------------------
 
-        setImmediate(() => {
-            callback();
-        });
+        // setImmediate(() => {
+        //     callback();
+        // });
 
         //--------------------
 
         callback();
     }
-    */
-    
-    // spinning
-    while (0 < end - getTimestamp()) {}
 
-    callback();
+    //--------------------
+
+    // spinning
+    // while (0 < end - getTimestamp()) {}
+
+    // callback();
 }
 
 /**
