@@ -1,5 +1,5 @@
 # no-drift
-Reduced drift timeouts and intervals
+Reduced drift timeouts and intervals for node.js
 
 Inspired by [driftless](https://github.com/dbkaplun/driftless)
 
