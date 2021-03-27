@@ -39,6 +39,27 @@ const getTimestamp = () => performance.now();
     Date.now();
 */
 
+/**
+ * creates a function if the callback is a string
+ * 
+ * @param {*} callback 
+ * @param {*} args 
+ * @returns 
+ */
+function createCallback(callback, args) {
+    if (typeof callback === 'function') {
+        return () => callback(...args);
+    }
+
+    const func = new Function('return ' + callback)();
+
+    if (typeof func === 'function') {
+        return () => func(...args);
+    }
+
+    return () => func;
+}
+
 //-------------------------------------------------------------------------
 // timeout
 
@@ -118,7 +139,7 @@ function customTimeout(callback, end, ID) {
  * @returns an ID
  */
 function setNoDriftZeroTimeout(callback, ms = 0, ...args) {
-    customTimeout(() => callback(...args), ms + getTimestamp(), newID);
+    customTimeout(createCallback(callback, args), ms + getTimestamp(), newID);
 
     return newID++;
 }
@@ -160,7 +181,7 @@ function customInterval(callback, time, end, ID) {
  * @returns an ID
  */
 function setNoDriftZeroInterval(callback, ms = 0, ...args) {
-    customInterval(() => callback(...args), ms, ms + getTimestamp(), newID);
+    customInterval(createCallback(callback, args), ms, ms + getTimestamp(), newID);
 
     return newID++;
 }

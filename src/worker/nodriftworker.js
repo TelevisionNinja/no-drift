@@ -12,6 +12,27 @@ const callbacks = new Map();
 // variable to keep track of and return a new ID
 let newID = 1;
 
+/**
+ * creates a function if the callback is a string
+ * 
+ * @param {*} callback 
+ * @param {*} args 
+ * @returns 
+ */
+function createCallback(callback, args) {
+    if (typeof callback === 'function') {
+        return () => callback(...args);
+    }
+
+    const func = new Function('return ' + callback)();
+
+    if (typeof func === 'function') {
+        return () => func(...args);
+    }
+
+    return () => func;
+}
+
 const worker = new Worker(resolve(__dirname, './worker.js'));
 
 // execute function
@@ -21,10 +42,10 @@ worker.on('message', vars => {
         ID
     } = vars;
 
-    const func = callbacks.get(ID);
+    const callback = callbacks.get(ID);
 
-    if (func) {
-        func();
+    if (callback) {
+        callback();
 
         if (type === 'timeout') {
             clearNoDriftWorker(ID);
@@ -41,7 +62,7 @@ worker.on('message', vars => {
  * @returns an ID
  */
  function setNoDriftWorkerTimeout(callback, ms = 0, ...args) {
-    callbacks.set(newID, () => callback(...args));
+    callbacks.set(newID, createCallback(callback, args));
 
     worker.postMessage({
         type: 'timeout',
@@ -61,7 +82,7 @@ worker.on('message', vars => {
  * @returns an ID
  */
  function setNoDriftWorkerInterval(callback, ms = 0, ...args) {
-    callbacks.set(newID, () => callback(...args));
+    callbacks.set(newID, createCallback(callback, args));
 
     worker.postMessage({
         type: 'interval',

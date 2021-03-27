@@ -40,9 +40,11 @@ setNoDriftTimeout((a, b, c) => {
     console.log(a, b, c);
 }, 1000, '1', '2', '3');
 
-setNoDriftInterval(() => {
-    console.log('Hello world 3');
-}, 1000);
+setNoDriftTimeout("console.log('Hello world 3');");
+
+setNoDriftTimeout("aFunction = a => console.log(a);", 0, "Hello world 4");
+
+// nodrift intervals have the same usage shown above
 
 //------------------
 // clearing nodrift
@@ -52,6 +54,10 @@ const id = setNoDriftTimeout(() => {
 }, 1000);
 
 clearNoDrift(id);
+
+// each implementation has their own pool of IDs
+// so import and use the appropriate clearing function
+
 ```
 
 ## Formulas for timeout times:
