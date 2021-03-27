@@ -24,13 +24,7 @@ function createCallback(callback, args) {
         return () => callback(...args);
     }
 
-    const func = new Function('return ' + callback)();
-
-    if (typeof func === 'function') {
-        return () => func(...args);
-    }
-
-    return () => func;
+    return Function(...args, callback);
 }
 
 const worker = new Worker(resolve(__dirname, './worker.js'));

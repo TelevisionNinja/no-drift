@@ -38,11 +38,9 @@ setNoDriftTimeout(() => {
 
 setNoDriftTimeout((a, b, c) => {
     console.log(a, b, c);
-}, 1000, '1', '2', '3');
+}, 2000, '1', '2', '3');
 
-setNoDriftTimeout("console.log('Hello world 3');");
-
-setNoDriftTimeout("aFunction = a => console.log(a);", 0, "Hello world 4");
+setNoDriftTimeout("console.log('Hello world 3');", 3000);
 
 // nodrift intervals have the same usage shown above
 
