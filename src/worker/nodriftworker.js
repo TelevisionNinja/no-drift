@@ -1,11 +1,4 @@
-const { Worker } = require('worker_threads');
-const { resolve } = require('path');
-
-module.exports = {
-    setNoDriftWorkerTimeout,
-    setNoDriftWorkerInterval,
-    clearNoDriftWorker
-}
+import { Worker } from 'worker_threads';
 
 // collection of callbacks
 const callbacks = new Map();
@@ -15,8 +8,8 @@ let newID = 1;
 /**
  * creates a function if the callback is a string
  * 
- * @param {*} callback 
- * @param {*} args 
+ * @param {Function} callback 
+ * @param {...any} args 
  * @returns 
  */
 function createCallback(callback, args) {
@@ -27,7 +20,7 @@ function createCallback(callback, args) {
     return Function(...args, callback);
 }
 
-const worker = new Worker(resolve(__dirname, './worker.js'));
+const worker = new Worker(new URL('./worker.js', import.meta.url));
 
 // execute function
 worker.on('message', vars => {
@@ -55,7 +48,7 @@ worker.on('message', vars => {
  * @param  {...any} args 
  * @returns an ID
  */
- function setNoDriftWorkerTimeout(callback, ms = 0, ...args) {
+export function setNoDriftWorkerTimeout(callback, ms = 0, ...args) {
     callbacks.set(newID, createCallback(callback, args));
 
     worker.postMessage({
@@ -75,7 +68,7 @@ worker.on('message', vars => {
  * @param  {...any} args 
  * @returns an ID
  */
- function setNoDriftWorkerInterval(callback, ms = 0, ...args) {
+export function setNoDriftWorkerInterval(callback, ms = 0, ...args) {
     callbacks.set(newID, createCallback(callback, args));
 
     worker.postMessage({
@@ -92,7 +85,7 @@ worker.on('message', vars => {
  * 
  * @param {Number} ID 
  */
-function clearNoDriftWorker(ID) {
+export function clearNoDriftWorker(ID) {
     callbacks.delete(ID);
 
     worker.postMessage({

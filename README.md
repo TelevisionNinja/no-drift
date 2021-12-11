@@ -7,7 +7,7 @@ Inspired by [driftless](https://github.com/dbkaplun/driftless)
 
 ```javascript
 // import any implementation you want
-const {
+import {
     // default implementation
     setNoDriftInterval,
     setNoDriftTimeout,
@@ -22,7 +22,7 @@ const {
     setNoDriftWorkerInterval,
     setNoDriftWorkerTimeout,
     clearNoDriftWorker
-} = require('no-drift');
+} from 'no-drift';
 
 //------------------
 // similar usage to setTimeout and setInterval
@@ -62,31 +62,43 @@ clearNoDrift(id);
 
 _r_ = rate
 
-_t_ = final time<br /><br />
+_t_ = total time<br /><br />
 
 
 ### Time left
 
-__recursive formula__
+__recurrence relation__
 
 _d_<sub>0</sub> = _t_
 
-_d_<sub>n</sub> = (1 - _r_)_d_<sub>n-1</sub>
+_d_<sub>_n_</sub> = (1 - _r_)_d_<sub>_n_-1</sub>
 
-__closed formula__
+__closed form__
 
-_d_<sub>n</sub> = _t_(1 - _r_)<sup>n</sup><br /><br />
+_d_<sub>_n_</sub> = _t_(1 - _r_)<sup>_n_</sup><br /><br />
 
 
 ### Current time
 
-__closed formula__
+__recurrence relation__
 
-_c_<sub>n</sub> = _t_(1 - (1 - _r_)<sup>n</sup>)<br /><br />
+_c_<sub>0</sub> = 0
+
+_c_<sub>_n_</sub> = (1 - _r_)_c_<sub>_n_-1</sub> + _tr_
+
+__closed form__
+
+_c_<sub>_n_</sub> = _t_(1 - (1 - _r_)<sup>_n_</sup>)<br /><br />
 
 
 ### Current wait time
 
-__closed formula__
+__recurrence relation__
 
-_w_<sub>n</sub> = _tr_(1 - _r_)<sup>n</sup>
+_w_<sub>0</sub> = _tr_
+
+_w_<sub>_n_</sub> = (1 - _r_)_w_<sub>_n_-1</sub>
+
+__closed form__
+
+_w_<sub>_n_</sub> = _tr_(1 - _r_)<sup>_n_</sup>

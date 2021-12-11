@@ -1,11 +1,11 @@
 // default nodrift functions are nodriftzero
-const {
+import {
     setNoDriftZeroInterval,
     setNoDriftZeroTimeout,
     clearNoDriftZero
-} = require('../nodriftzero.js');
+} from '../nodriftzero.js';
 
-const { parentPort } = require('worker_threads');
+import { parentPort } from 'worker_threads';
 
 // collection of IDs so that the timers can be cleared
 const IDs = new Map();

@@ -1,18 +1,10 @@
-const { performance } = require('perf_hooks');
-
-module.exports = {
-    setNoDriftZeroTimeout,
-    setNoDriftZeroInterval,
-    clearNoDriftZero
-}
-
 // collection of IDs so that the timers can be cleared
 const IDs = new Map();
 // variable to keep track of and return a new ID
 let newID = 1;
 
 const rate = 0.9;
-const threshold = 16;
+const threshold = 16; // ms
 
 /**
  * this calls a function to get a timestamp
@@ -42,8 +34,8 @@ const getTimestamp = () => performance.now();
 /**
  * creates a function if the callback is a string
  * 
- * @param {*} callback 
- * @param {*} args 
+ * @param {Function} callback 
+ * @param {...any} args 
  * @returns 
  */
 function createCallback(callback, args) {
@@ -72,12 +64,28 @@ function zeroTimeout(callback, end) {
 
         //--------------------
 
+        // setTimeout(() => {
+        //     zeroTimeout(callback, end);
+        // });
+
+        //--------------------
+
         setImmediate(() => {
             zeroTimeout(callback, end);
         });
+
+        //--------------------
+
+        // zeroTimeout(callback, end);
     }
     else {
         // process.nextTick(() => {
+        //     callback();
+        // });
+
+        //--------------------
+
+        // setTimeout(() => {
         //     callback();
         // });
 
@@ -132,7 +140,7 @@ function customTimeout(callback, end, ID) {
  * @param  {...any} args 
  * @returns an ID
  */
-function setNoDriftZeroTimeout(callback, ms = 0, ...args) {
+export function setNoDriftZeroTimeout(callback, ms = 0, ...args) {
     customTimeout(createCallback(callback, args), ms + getTimestamp(), newID);
 
     return newID++;
@@ -174,7 +182,7 @@ function customInterval(callback, time, end, ID) {
  * @param  {...any} args 
  * @returns an ID
  */
-function setNoDriftZeroInterval(callback, ms = 0, ...args) {
+export function setNoDriftZeroInterval(callback, ms = 0, ...args) {
     customInterval(createCallback(callback, args), ms, ms + getTimestamp(), newID);
 
     return newID++;
@@ -188,7 +196,7 @@ function setNoDriftZeroInterval(callback, ms = 0, ...args) {
  * 
  * @param {Number} ID 
  */
-function clearNoDriftZero(ID) {
+export function clearNoDriftZero(ID) {
     clearTimeout(IDs.get(ID));
     IDs.delete(ID);
 }

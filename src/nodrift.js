@@ -1,11 +1,3 @@
-const { performance } = require('perf_hooks');
-
-module.exports = {
-    setNoDriftTimeout,
-    setNoDriftInterval,
-    clearNoDrift
-}
-
 // collection of IDs so that the timers can be cleared
 const IDs = new Map();
 // variable to keep track of and return a new ID
@@ -41,8 +33,8 @@ const getTimestamp = () => performance.now();
 /**
  * creates a function if the callback is a string
  * 
- * @param {*} callback 
- * @param {*} args 
+ * @param {Function} callback 
+ * @param {...any} args 
  * @returns 
  */
 function createCallback(callback, args) {
@@ -86,7 +78,7 @@ function customTimeout(callback, end, ID) {
  * @param  {...any} args 
  * @returns an ID
  */
-function setNoDriftTimeout(callback, ms = 0, ...args) {
+export function setNoDriftTimeout(callback, ms = 0, ...args) {
     customTimeout(createCallback(callback, args), ms + getTimestamp(), newID);
 
     return newID++;
@@ -125,7 +117,7 @@ function customInterval(callback, time, end, ID) {
  * @param  {...any} args 
  * @returns an ID
  */
-function setNoDriftInterval(callback, ms = 0, ...args) {
+export function setNoDriftInterval(callback, ms = 0, ...args) {
     customInterval(createCallback(callback, args), ms, ms + getTimestamp(), newID);
 
     return newID++;
@@ -139,7 +131,7 @@ function setNoDriftInterval(callback, ms = 0, ...args) {
  * 
  * @param {Number} ID 
  */
-function clearNoDrift(ID) {
+export function clearNoDrift(ID) {
     clearTimeout(IDs.get(ID));
     IDs.delete(ID);
 }
