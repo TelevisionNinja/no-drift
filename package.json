@@ -2,7 +2,7 @@
   "name": "no-drift",
   "version": "2.0.1",
   "description": "Reduced drift timeouts and intervals for node.js",
-  "main": "./main.js",
+  "main": "./src/exports.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,5 +23,8 @@
     "drift",
     "no-drift",
     "driftless"
-  ]
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  }
 }
