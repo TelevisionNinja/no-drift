@@ -1,6 +1,5 @@
 // collection of IDs so that the timers can be cleared
 const IDs = new Map();
-const intervalThresholdIDs = new Map();
 // variable to keep track of and return a new ID
 let newID = 1;
 
@@ -106,31 +105,33 @@ function zeroTimeout(callback, end, ID) {
     // while (0 < end - getTimestamp()) {}
 
     // callback();
+    // IDs.delete(ID);
 }
 
 /**
  * recursively calls this function to check the time
  * 
  * @param {Function} callback 
+ * @param {Number} time 
  * @param {Number} end 
  * @param {Number} ID 
  */
-function zeroInterval(callback, end, ID) {
+function zeroInterval(callback, time, end, ID) {
     // recursion
     if (0 < end - getTimestamp()) {
-        intervalThresholdIDs.set(
+        IDs.set(
             ID,
             setTimeout(() => {
-                zeroInterval(callback, end, ID);
+                zeroInterval(callback, time, end, ID);
             })
         );
 
         //--------------------
 
-        // intervalThresholdIDs.set(
+        // IDs.set(
         //     ID,
         //     setImmediate(() => {
-        //         zeroInterval(callback, end, ID);
+        //         zeroInterval(callback, time, end, ID);
         //     })
         // );
     }
@@ -149,7 +150,7 @@ function zeroInterval(callback, end, ID) {
 
         callback();
 
-        intervalThresholdIDs.delete(ID);
+        customInterval(callback, time, end + time, ID);
     }
 
     //--------------------
@@ -158,6 +159,7 @@ function zeroInterval(callback, end, ID) {
     // while (0 < end - getTimestamp()) {}
 
     // callback();
+    // customInterval(callback, time, end + time, ID);
 }
 
 /**
@@ -209,20 +211,19 @@ export function setNoDriftZeroTimeout(callback, ms = 0, ...args) {
  * @param {Number} ID 
  */
 function customInterval(callback, time, end, ID) {
-    let delta = end - getTimestamp();
+    const delta = end - getTimestamp();
 
-    if (delta <= threshold) {
-        zeroInterval(callback, end, ID);
-        end += time;
-        delta += time;
+    if (delta > threshold) {
+        IDs.set(
+            ID,
+            setTimeout(() => {
+                customInterval(callback, time, end, ID);
+            }, rate * delta)
+        );
     }
-
-    IDs.set(
-        ID,
-        setTimeout(() => {
-            customInterval(callback, time, end, ID);
-        }, rate * delta)
-    );
+    else {
+        zeroInterval(callback, time, end, ID);
+    }
 }
 
 /**
@@ -249,7 +250,5 @@ export function setNoDriftZeroInterval(callback, ms = 0, ...args) {
  */
 export function clearNoDriftZero(ID) {
     clearTimeout(IDs.get(ID));
-    clearTimeout(intervalThresholdIDs.get(ID));
     IDs.delete(ID);
-    intervalThresholdIDs.delete(ID);
 }
