@@ -109,6 +109,46 @@ function zeroTimeout(callback, end, ID) {
 }
 
 /**
+ * calls timeout until the time has been reached
+ * 
+ * @param {Function} callback 
+ * @param {Number} end 
+ * @param {Number} ID 
+ */
+function customTimeout(callback, end, ID) {
+    const delta = end - getTimestamp();
+
+    if (delta > threshold) {
+        IDs.set(
+            ID,
+            setTimeout(() => {
+                customTimeout(callback, end, ID);
+            }, rate * delta)
+        );
+    }
+    else {
+        zeroTimeout(callback, end, ID);
+    }
+}
+
+/**
+ * calls timeout until the time has been reached
+ * 
+ * @param {Function} callback 
+ * @param {Number} ms 
+ * @param  {...any} args 
+ * @returns an ID
+ */
+export function setNoDriftZeroTimeout(callback, ms = 0, ...args) {
+    customTimeout(createCallback(callback, args), ms + getTimestamp(), newID);
+
+    return newID++;
+}
+
+//-------------------------------------------------------------------------
+// interval
+
+/**
  * recursively calls this function to check the time
  * 
  * @param {Function} callback 
@@ -161,46 +201,6 @@ function zeroInterval(callback, time, end, ID) {
     // callback();
     // customInterval(callback, time, end + time, ID);
 }
-
-/**
- * calls timeout until the time has been reached
- * 
- * @param {Function} callback 
- * @param {Number} end 
- * @param {Number} ID 
- */
-function customTimeout(callback, end, ID) {
-    const delta = end - getTimestamp();
-
-    if (delta > threshold) {
-        IDs.set(
-            ID,
-            setTimeout(() => {
-                customTimeout(callback, end, ID);
-            }, rate * delta)
-        );
-    }
-    else {
-        zeroTimeout(callback, end, ID);
-    }
-}
-
-/**
- * calls timeout until the time has been reached
- * 
- * @param {Function} callback 
- * @param {Number} ms 
- * @param  {...any} args 
- * @returns an ID
- */
-export function setNoDriftZeroTimeout(callback, ms = 0, ...args) {
-    customTimeout(createCallback(callback, args), ms + getTimestamp(), newID);
-
-    return newID++;
-}
-
-//-------------------------------------------------------------------------
-// interval
 
 /**
  * calls timeout repeatedly
